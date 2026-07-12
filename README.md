@@ -1060,3 +1060,12 @@ The beta focuses on practical Windows workflows:
 
 Thanks for testing FileTrace. The more strange folders, edge cases, and real-world setups beta testers throw at it, the better the final app becomes.
 
+## Legal
+
+By installing or using the FileTrace beta, you agree to the beta license terms and privacy policy:
+
+- [End User License Agreement](EULA.md)
+- [Privacy Policy](PRIVACY.md)
+
+FileTrace is local-first, but optional metadata features may communicate directly with third-party services such as TMDB and AcoustID when you provide API keys or enable metadata features.
+
