@@ -6,6 +6,30 @@ The beta goal is simple: help power users clean, rename, enrich, and route large
 
 > Beta note: FileTrace is currently being tested with a small group of power users. The first beta licenses are free for testers who are willing to report issues, edge cases, and workflow feedback.
 
+## Table Of Contents
+
+- [Installation Notes](#installation-notes)
+- [Organize And Rename Modes](#organize-and-rename-modes)
+- [Smart Sort](#smart-sort)
+- [Watchdog](#watchdog)
+- [Settings, API Keys, And Naming Formats](#settings-api-keys-and-naming-formats)
+- [Cleanup Tools](#cleanup-tools)
+- [Privacy And Power Tools](#privacy-and-power-tools)
+- [Beta Feedback](#beta-feedback)
+- [Legal](#legal)
+
+## Installation Notes
+
+Because I'm a solo indie developer and this is a brand-new Beta, Windows SmartScreen might flag the installer. This happens simply because the app hasn't been downloaded by thousands of people yet, and I haven't purchased an expensive Enterprise EV Certificate!
+
+If you get a blue "Windows protected your PC" popup, don't worry. Here is how to proceed:
+
+Click More info.
+
+Click the Run anyway button that appears at the bottom.
+
+(Note: As the app gets downloaded more by the community, Windows will build trust with the file and this warning will naturally go away!)
+
 ## Organize And Rename Modes
 
 Organize and Rename are the two everyday tools in FileTrace. They share the same preview-first workspace, but they do different jobs:
@@ -60,6 +84,8 @@ Breaking Bad - S01E01 - Pilot.mkv
 
 After choosing the mode, click **Preview Changes**. FileTrace will show the old path and the proposed new path before touching the files.
 
+You can also click **Preview on Drive**. This mounts a temporary preview drive that lets you browse the planned result directly in File Explorer. Nothing is physically moved yet. If you rename folders or move items inside the preview drive, FileTrace mirrors those edits when you click **Apply**. If you cancel or preview again, the temporary drive is removed and its generated sidecars are cleaned up.
+
 When the preview looks right, click **Apply**. If you need to roll back, use **Undo**.
 
 ### How To Use Rename
@@ -91,7 +117,7 @@ For general file cleanup, Rename also supports practical batch tools such as:
 - Extension filters.
 - Duplicate handling.
 
-The most important rule is the same: always click **Preview Changes** first. FileTrace is built so you can inspect the result before it changes your files.
+The most important rule is the same: always click **Preview Changes** first. You can also use **Preview on Drive** when you want to inspect the output as a real folder tree before applying it. FileTrace is built so you can inspect the result before it changes your files.
 
 ### Recommended Workflows
 
@@ -167,7 +193,7 @@ This architecture makes Organize and Rename useful for small batches, but it is 
 
 ## Smart Sort
 
-Smart Sort is FileTrace's large-library sorting engine. It is designed for the moment when you do not want to manually pick "TV Series," "Movies," "Anime," "Audio," or "Installers" one folder at a time.
+Smart Sort is FileTrace's large-library sorting engine. It is designed for the moment when you do not want to manually pick "TV Series," "Movies," "Anime," "Audio," or "Games" one folder at a time.
 
 Point Smart Sort at a folder, a media dump, or an entire drive, and FileTrace analyzes the contents, classifies files, builds a proposed structure, and lets you preview the result before execution.
 
@@ -189,17 +215,25 @@ D:\
 
 Smart Sort is built for big messy inputs, so it can scan nested folders and mixed libraries.
 
-After selecting the path, click **Analyze**.
+After selecting the path, click **Preview Changes**.
 
 FileTrace will classify the files and show a preview tree. The preview is the important part: it shows where files will appear before the sort is executed.
 
-Smart Sort has three execution actions:
+Smart Sort has the same preview-first control style as Organize and Rename. The main options are:
 
+- **Apply Folder Context**
+- **Deduplicate Files**
 - **Mount Virtual Drive**
 - **Sort In Place**
 - **Rename Files**
+- **Use Official Episode Names**
+- **Download Poster**
+- **Download Folder Icon**
+- **Generate .nfo files**
 
 You can enable more than one action depending on how you want to work.
+
+Click **Apply** only after the preview is ready and looks correct. Apply is disabled until FileTrace has a current preview plan.
 
 ### Mount Virtual Drive
 
@@ -221,13 +255,23 @@ Series\Drama\House (2004)\Season 01\House - S01E01 - Pilot.mkv
 
 From the virtual drive, you can browse the organized result in File Explorer. FileTrace also supports virtual-drive metadata sidecars such as posters, icons, and `.nfo` files when metadata is available.
 
+### Preview On Drive
+
+**Preview on Drive** is different from **Mount Virtual Drive**.
+
+Preview on Drive creates a temporary preview drive from the current preview plan. It is meant for inspection and manual adjustment before execution. You can open the drive in File Explorer, rename a folder, or move a few planned items around. When you click **Apply**, FileTrace reads the temporary preview structure and applies those edits to the real operation.
+
+This is useful when automatic metadata gets most of the library right but you want to polish a few folder names before committing.
+
+If you do not apply the run, the temporary preview drive and temporary generated sidecars are removed.
+
 ### Sort In Place
 
 **Sort In Place** physically moves files into the organized structure.
 
 Use this when you are happy with the preview and want the folder on disk to be cleaned up.
 
-Smart Sort writes an undo log for physical moves, so you can use **Undo** after a run if you need to restore files to their previous locations.
+Smart Sort writes a persistent History transaction for physical moves, so you can use **Undo** or the **History** page after a run if you need to restore files to their previous locations.
 
 ### Rename Files
 
@@ -251,9 +295,9 @@ This uses the same naming and folder format engine as the normal Rename and Orga
 1. Open **Smart Sort**.
 2. Select the folder or drive.
 3. Leave **Mount Virtual Drive** enabled.
-4. Click **Analyze**.
+4. Click **Preview Changes**.
 5. Review the preview tree.
-6. Click **Execute Sort**.
+6. Click **Apply**.
 7. Browse the mounted virtual drive and inspect the result.
 
 This is the recommended first run for very large folders.
@@ -262,11 +306,11 @@ This is the recommended first run for very large folders.
 
 1. Open **Smart Sort**.
 2. Select the folder or drive.
-3. Click **Analyze**.
+3. Click **Preview Changes**.
 4. Review the preview.
 5. Enable **Sort In Place**.
 6. Optionally enable **Rename Files**.
-7. Click **Execute Sort**.
+7. Click **Apply**.
 
 Use this when you are ready for FileTrace to physically move files.
 
@@ -274,10 +318,10 @@ Use this when you are ready for FileTrace to physically move files.
 
 1. Open **Smart Sort**.
 2. Select your source folder.
-3. Click **Analyze**.
+3. Click **Preview Changes**.
 4. Enable **Mount Virtual Drive**.
 5. Enable **Rename Files**.
-6. Click **Execute Sort**.
+6. Click **Apply**.
 
 This gives you a polished virtual library while leaving the original files in place.
 
@@ -290,14 +334,12 @@ Smart Sort is designed to classify common power-user collections, including:
 - Anime movies.
 - Movies.
 - Music.
-- Photos and images.
 - Games.
-- Installers and programs.
-- Documents.
-- Archives.
 - Junk or unsupported leftovers.
 
-It also understands context. For example, a folder named `Anime` is treated as a useful hint, but not the final answer. A normal 20-25 minute video under an anime branch can be treated as anime, while a long 70+ minute video under the same branch can be treated as an anime movie.
+For the beta, Smart Sort is focused on media, music, and games. Cleanup Tools handle junk, partial downloads, duplicate files, and OS artifacts separately.
+
+Smart Sort also understands context. For example, a folder named `Anime` is treated as a useful hint, but not the final answer. A normal 20-25 minute video under an anime branch can be treated as anime, while a long 70+ minute video under the same branch can be treated as an anime movie.
 
 ### Sidecars And Artwork
 
@@ -345,7 +387,6 @@ The fourth stage is execution. Depending on the selected actions, FileTrace can:
 
 - create a mounted virtual namespace,
 - physically move files,
-- create shortcut trees,
 - rename files using saved patterns,
 - generate sidecars,
 - apply folder icons,
@@ -354,6 +395,16 @@ The fourth stage is execution. Depending on the selected actions, FileTrace can:
 The virtual drive path is one of the most important parts of FileTrace. Instead of requiring a full physical move, FileTrace builds a persistent virtual namespace that maps clean virtual paths to the original physical files. The virtual namespace is stored and can be restored later, so a large organized view can survive app restarts.
 
 To keep the mounted view responsive, FileTrace tracks virtual namespace entries and updates them when physical paths change. This includes live updates from the Windows file system layer, so renamed or moved source files can be reflected in the virtual drive without rebuilding the entire library.
+
+### Smart Sort True Sync
+
+True Sync is the virtual-drive update layer behind Smart Sort.
+
+When Smart Sort mounts a library, FileTrace stores a mapping from each virtual path to the real source file. After that, FileTrace watches the physical source paths. If a source file is renamed or moved, the mounted path can be updated to point at the new physical location instead of disappearing or requiring a full remount.
+
+On local NTFS drives, FileTrace prefers USN Journal tracking for this because USN gives low-overhead file identity and rename/move events. Where USN is not available, FileTrace falls back to safer watcher/scan behavior.
+
+True Sync is meant to make the mounted library feel permanent while still letting you keep the real files wherever they are.
 
 For performance, Smart Sort avoids doing heavyweight post-processing repeatedly when it can reuse the preview plan. When mounting into an existing virtual drive, FileTrace can merge new namespace entries instead of replacing everything. It also tags processed files internally so later operations can understand whether an item was sorted, renamed, or mounted.
 
@@ -628,6 +679,17 @@ The transfer layer is designed for real Windows storage setups. It supports loca
 For monitoring, FileTrace prefers the NTFS USN Journal on eligible local NTFS paths. USN is extremely efficient because it reads the file-system change journal instead of repeatedly scanning every file. When a path is not USN-eligible, such as a UNC share or a non-NTFS drive, FileTrace falls back to `FileSystemWatcher`.
 
 Watchdog also has a timed scan loop, currently clamped between 10 and 30 seconds, so automatic scanning and **Scan Now** still work even when fast event delivery is unavailable.
+
+### Watchdog USN Details
+
+USN is used only when the watched path is safe for it:
+
+- the path is local rather than UNC,
+- the drive is ready,
+- the file system is NTFS,
+- and the elevated helper can access the journal.
+
+This keeps local download folders extremely light on CPU because FileTrace does not need to repeatedly enumerate the entire folder tree. For network shares, mapped drives, exFAT drives, and any location where USN is not available, Watchdog automatically falls back to normal Windows watcher behavior plus the timed scan loop. That fallback is slower than USN, but it is safer for NAS and removable-drive setups.
 
 Duplicate handling is media-aware. The default **Keep highest quality** option compares actual video metadata where possible, so a lower-quality duplicate is not kept just because the filename claims a higher resolution.
 
@@ -1002,6 +1064,84 @@ Resolution is determined from media metadata first. Filename tags such as `1080p
 
 TMDB lookups are batched and rate-aware, and AcoustID lookup is limited for audio identification. This helps FileTrace stay responsive while still enriching large batches.
 
+## Cleanup Tools
+
+Cleanup Tools replaces the old single-purpose Duplicates tab with a broader maintenance workspace.
+
+Open **Cleanup Tools** from the sidebar, choose a folder, select which tools to run, then scan. FileTrace shows a preview of every candidate before deleting or renaming anything.
+
+### Deduplicate Files
+
+Deduplicate Files finds redundant copies by hashing supported heavy file types such as media files, archives, and executable installers. It avoids wasting time hashing tiny support files, DLLs, images, and ordinary metadata files during broad scans.
+
+The result groups matching files together so you can decide which copies should be removed.
+
+### Sample And Trailer Hunter
+
+Sample And Trailer Hunter looks for video files whose names contain terms such as `sample`, `trailer`, or `extras`.
+
+This is useful for cleaning download folders that include short preview clips you do not want in the final library.
+
+### System/OS Junk Sweeper
+
+System/OS Junk Sweeper removes disposable operating-system artifacts such as:
+
+- `thumbs.db`
+- `desktop.ini`
+- `.DS_Store`
+- `__MACOSX`
+- Apple `._*` files
+- temporary `~*` files
+
+This keeps media folders cleaner when viewing hidden files or moving libraries between Windows, macOS, and NAS devices.
+
+### Orphaned Sidecar Scanner
+
+Orphaned Sidecar Scanner finds metadata files that no longer belong to a media item, such as leftover `.nfo`, `.jpg`, `.png`, `.srt`, `.ass`, `.ssa`, or `.vtt` files.
+
+FileTrace protects normal media-server layouts. For example, a TV root folder containing `tvshow.nfo` and `poster.jpg` is not treated as orphaned if that folder or its first-level season folders contain video files.
+
+### Partial Download Finder
+
+Partial Download Finder looks for incomplete download files such as:
+
+- `.part`
+- `.crdownload`
+- `.tmp`
+- `.download`
+
+FileTrace excludes its own temp, recovery, and cache files so cleanup does not damage active FileTrace state.
+
+### Deep Clean Empty Directories
+
+Deep Clean Empty Directories removes empty folder trees left behind after sorting or manual cleanup.
+
+The safety rule is strict: FileTrace does not delete a folder if it contains any file, protected folder, config file, `.git` folder, or FileTrace runtime marker.
+
+### Double-Extension Fixer
+
+Double-Extension Fixer repairs names like:
+
+```text
+Movie.mkv.txt
+Episode.mp4.url
+Track.flac.download
+```
+
+It only fixes files when the embedded extension is in a strict safe whitelist. Dangerous names such as `Movie.mkv.exe` are ignored rather than renamed.
+
+### Cleanup Safety
+
+Cleanup actions are preview-first. Local delete actions try to use the Recycle Bin where Windows supports it.
+
+For UNC shares, NAS folders, mapped network drives, or any path where the Recycle Bin is unavailable, FileTrace shows an explicit permanent-delete warning before continuing:
+
+```text
+Recycle Bin is not available for network drives. These files will be permanently deleted. Continue?
+```
+
+Execution results report deleted, renamed, skipped, and failed items. If one item fails because it is locked or missing, FileTrace reports the partial result instead of pretending everything succeeded.
+
 ## Privacy And Power Tools
 
 FileTrace also includes smaller utility tools for users who want quick maintenance actions without leaving the app.
@@ -1068,4 +1208,3 @@ By installing or using the FileTrace beta, you agree to the beta license terms a
 - [Privacy Policy](PRIVACY.md)
 
 FileTrace is local-first, but optional metadata features may communicate directly with third-party services such as TMDB and AcoustID when you provide API keys or enable metadata features.
-
