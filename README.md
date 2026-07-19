@@ -24,9 +24,9 @@ Because I'm a solo indie developer and this is a brand-new Beta, Windows SmartSc
 
 If you get a blue "Windows protected your PC" popup, don't worry. Here is how to proceed:
 
-Click More info.
+1. Click More info.
 
-Click the Run anyway button that appears at the bottom.
+2. Click the Run anyway button that appears at the bottom.
 
 (Note: As the app gets downloaded more by the community, Windows will build trust with the file and this warning will naturally go away!)
 
